@@ -4,167 +4,912 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>30-Day DSA Tracker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f6f8;
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+      --warning: #f72585;
+      --gray: #adb5bd;
+      --gray-light: #e9ecef;
+    }
+    
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
     header {
-      background-color: #1e88e5;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: white;
-      padding: 1rem;
+      padding: 1.5rem;
       text-align: center;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+    
+    .header-icon {
+      margin-right: 15px;
+      font-size: 1.5em;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+      40% {transform: translateY(-10px);}
+      60% {transform: translateY(-5px);}
+    }
+    
     nav {
-      background-color: #1565c0;
-      padding: 0.5rem;
+      background-color: var(--primary-dark);
+      padding: 1rem;
       text-align: center;
+      position: sticky;
+      top: 78px;
+      z-index: 99;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
+    
     nav a {
       color: white;
-      margin: 0 1rem;
+      margin: 0 1.2rem;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 500;
+      font-size: 1.1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      transition: all 0.3s ease;
     }
+    
     nav a:hover {
-      text-decoration: underline;
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
     }
+    
+    nav a i {
+      margin-right: 8px;
+    }
+    
     .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 1rem;
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
     }
+    
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    .stat-card {
+      text-align: center;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      flex: 1;
+      margin: 0 0.5rem;
+      background: var(--light);
+    }
+    
+    .stat-card h3 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 0.2rem;
+    }
+    
+    .stat-card p {
+      font-size: 0.9rem;
+      color: var(--dark);
+    }
+    
+    .progress-container {
+      width: 100%;
+      height: 10px;
+      background: var(--gray-light);
+      border-radius: 5px;
+      margin: 1.5rem 0;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--success) 100%);
+      border-radius: 5px;
+      transition: width 0.5s ease;
+    }
+    
     .day-container {
       background: white;
-      padding: 20px;
-      margin: 15px 0;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+      margin: 1rem 0;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-left: 4px solid var(--accent);
     }
+    
+    .day-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+    
     .day-container h2 {
-      margin-bottom: 12px;
-      color: #1e88e5;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      font-size: 1.4rem;
     }
+    
+    .day-container h2 i {
+      margin-right: 10px;
+      color: var(--accent);
+    }
+    
+    .task-list {
+      list-style: none;
+    }
+    
     .task {
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 8px;
+      transition: background 0.2s ease;
     }
+    
+    .task:hover {
+      background: var(--gray-light);
+    }
+    
     .task input[type="checkbox"] {
-      margin-right: 10px;
-      transform: scale(1.2);
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--gray);
+      border-radius: 4px;
+      margin-right: 15px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
     }
+    
+    .task input[type="checkbox"]:checked {
+      background-color: var(--success);
+      border-color: var(--success);
+    }
+    
+    .task input[type="checkbox"]:checked::after {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      color: white;
+      font-size: 12px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .task label {
+      flex: 1;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    
     .completed {
       text-decoration: line-through;
-      color: gray;
+      color: var(--gray);
     }
+    
+    .task-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .action-btn {
+      background: none;
+      border: none;
+      color: var(--gray);
+      cursor: pointer;
+      font-size: 1rem;
+      transition: color 0.2s ease;
+    }
+    
+    .action-btn:hover {
+      color: var(--primary);
+    }
+    
+    .difficulty {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      margin-left: 10px;
+      font-weight: 600;
+    }
+    
+    .easy {
+      background-color: rgba(76, 201, 240, 0.2);
+      color: #4cc9f0;
+    }
+    
+    .medium {
+      background-color: rgba(248, 165, 74, 0.2);
+      color: #f8a54a;
+    }
+    
+    .hard {
+      background-color: rgba(247, 37, 133, 0.2);
+      color: #f72585;
+    }
+    
     footer {
       text-align: center;
-      margin-top: 2rem;
-      padding: 1rem;
-      background: #1e88e5;
+      margin-top: 3rem;
+      padding: 2rem 1rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: white;
     }
-    .platform-link {
-      margin-left: 10px;
-      font-size: 0.9rem;
-      color: #1565c0;
-      text-decoration: underline;
+    
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .social-links {
+      margin: 1rem 0;
+    }
+    
+    .social-links a {
+      color: white;
+      margin: 0 10px;
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      transform: translateY(-3px);
+    }
+    
+    .motivational-quote {
+      font-style: italic;
+      margin: 1rem 0;
+      opacity: 0.9;
+    }
+    
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--primary);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 90;
+    }
+    
+    .back-to-top.visible {
+      opacity: 1;
+    }
+    
+    .back-to-top:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+    }
+    
+    @media (max-width: 768px) {
+      .stats-bar {
+        flex-direction: column;
+      }
+      
+      .stat-card {
+        margin: 0.5rem 0;
+      }
+      
+      nav a {
+        margin: 0 0.5rem;
+        padding: 0.5rem;
+        font-size: 0.9rem;
+      }
+      
+      .task-actions {
+        flex-direction: column;
+        gap: 5px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>📘 30-Day DSA Challenge Tracker</header>
+  <header>
+    <i class="fas fa-laptop-code header-icon"></i>
+    <h1>30-Day DSA Challenge Tracker</h1>
+  </header>
   <nav>
-    <a href="#">Home</a>
-    <a href="#">Resources</a>
-    <a href="#">About</a>
-    <a href="#">Contact</a>
+    <a href="#"><i class="fas fa-home"></i> Home</a>
+    <a href="#"><i class="fas fa-book"></i> Resources</a>
+    <a href="#"><i class="fas fa-chart-line"></i> Progress</a>
+    <a href="#"><i class="fas fa-trophy"></i> Achievements</a>
+    <a href="#"><i class="fas fa-question-circle"></i> About</a>
   </nav>
-  <div class="container" id="tracker"></div>
-  <footer>Created with ❤️ for DSA learners - Track daily & stay consistent!</footer>
+  
+  <div class="container">
+    <div class="stats-bar">
+      <div class="stat-card">
+        <h3 id="days-completed">0</h3>
+        <p>Days Completed</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="problems-solved">0</h3>
+        <p>Problems Solved</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="completion-rate">0%</h3>
+        <p>Completion Rate</p>
+      </div>
+    </div>
+    
+    <div class="progress-container">
+      <div class="progress-bar" id="overall-progress"></div>
+    </div>
+    
+    <div id="tracker"></div>
+  </div>
+  
+  <footer>
+    <div class="footer-content">
+      <h3>Keep Coding, Keep Growing!</h3>
+      <p class="motivational-quote">"Success is the sum of small efforts, repeated day in and day out." - Robert Collier</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+      </div>
+      <p>Created with <i class="fas fa-heart" style="color: #f72585;"></i> for DSA learners</p>
+    </div>
+  </footer>
+  
+  <div class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
 
   <script>
-    const days = [
-      ["Maximum Subarray (Kadane’s Algo)", "Find Second Largest & Second Smallest", "Left Rotate Array by One", "Check if Array is Sorted"],
-      ["Move All Zeros to End", "Leaders in an Array", "Longest Consecutive Subsequence", "Stock Buy and Sell I"],
-      ["Subarray with Given Sum", "Equilibrium Point", "Prefix Sum + Range Sum Queries", "Count Subarrays with 0 Sum"],
-      ["GCD using Euclid’s Algo", "Count set bits in an integer", "Sieve of Eratosthenes", "Check Power of 2"],
-      ["Frequency of Elements (Using Map)", "Intersection of Two Arrays", "Longest Subarray with Sum = 0", "Check for Anagram"],
-      ["Longest Substring Without Repeat", "Count Distinct Elements in Window", "First Non-Repeating Character", "Count Substrings with K Distinct Characters"],
-      ["Pair Sum in Sorted Array", "Triplet Sum", "Remove Duplicates from Sorted Array", "Container With Most Water"],
-      ["Max Sum Subarray of Size K", "Longest Substring After Replacements", "Minimum Window Substring", "Sliding Window Maximum"],
-      ["Binary Search (Iterative & Recursive)", "Lower Bound & Upper Bound", "Search Insert Position", "Search in Rotated Sorted Array"],
-      ["Median of Two Sorted Arrays", "Allocate Minimum Number of Pages", "Aggressive Cows (GFG)", "Koko Eating Bananas"],
-      ["Print All Subsequences", "Generate Power Set", "Subset Sum Problem", "Recursive Fibonacci"],
-      ["N-Queens", "Rat in a Maze", "Word Search", "Sudoku Solver"],
-      ["Spiral Matrix", "Rotate Matrix 90 Degrees", "Search in 2D Matrix", "Set Matrix Zeroes"],
-      ["Number of Islands", "Flood Fill Algorithm", "Matrix Chain Multiplication (Intro)", "Boundary Traversal of Matrix"],
-      ["Reverse a Linked List", "Detect Loop in LL", "Remove Duplicates from Sorted LL", "Find Middle of Linked List"],
-      ["Merge Two Sorted LL", "Intersection Point in Y LL", "Palindrome Linked List", "Add 1 to a Number Represented by LL"],
-      ["Implement Stack using Array/LL", "Next Greater Element", "Valid Parentheses", "Min Stack"],
-      ["Largest Rectangle in Histogram", "Maximal Rectangle in Matrix", "Sliding Window Maximum", "Circular Queue Implementation"],
-      ["Reverse Words in a String", "Longest Palindromic Substring", "Implement ATOI", "Group Anagrams"],
-      ["Rabin Karp Algorithm", "KMP Pattern Searching", "Longest Common Prefix", "Z-Algorithm (Intro)"],
-      ["Inorder, Preorder, Postorder Traversals", "Level Order Traversal", "Height of Binary Tree", "Diameter of Binary Tree"],
-      ["Lowest Common Ancestor", "Zigzag Level Order", "Convert BT to DLL", "Top View of Binary Tree"],
-      ["Search, Insert in BST", "Validate BST", "Floor and Ceil in BST", "Trie Insert and Search"],
-      ["Implement Min/Max Heap", "Kth Largest Element", "Median in Data Stream", "Top K Frequent Elements"],
-      ["Activity Selection Problem", "Fractional Knapsack", "Huffman Encoding", "Job Scheduling Problem"],
-      ["BFS and DFS Traversals", "Detect Cycle in Undirected Graph", "Detect Cycle in Directed Graph", "Topological Sort (Kahn’s Algo)"],
-      ["Dijkstra’s Shortest Path", "Bellman Ford", "Kruskal’s Algorithm (MST)", "Prim’s Algorithm (MST)"],
-      ["Fibonacci (DP)", "Climbing Stairs", "House Robber", "Minimum Coins to Make Sum"],
-      ["Longest Common Subsequence", "Edit Distance", "0-1 Knapsack", "Matrix Chain Multiplication"],
-      ["Largest Area of Island", "Rotting Oranges", "Word Ladder", "Max Path Sum in Binary Tree"]
+    const daysData = [
+      {
+        day: 1,
+        title: "Array Basics",
+        tasks: [
+          { name: "Maximum Subarray (Kadane's Algo)", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Find Second Largest & Second Smallest", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Left Rotate Array by One", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Check if Array is Sorted", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 2,
+        title: "Array Operations",
+        tasks: [
+          { name: "Move All Zeros to End", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Leaders in an Array", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Longest Consecutive Subsequence", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Stock Buy and Sell I", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 3,
+        title: "Prefix Sum & Subarrays",
+        tasks: [
+          { name: "Subarray with Given Sum", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Equilibrium Point", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Prefix Sum + Range Sum Queries", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Count Subarrays with 0 Sum", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 4,
+        title: "Math & Number Theory",
+        tasks: [
+          { name: "GCD using Euclid's Algo", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Count set bits in an integer", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Sieve of Eratosthenes", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Check Power of 2", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 5,
+        title: "Hashing I",
+        tasks: [
+          { name: "Frequency of Elements (Using Map)", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Intersection of Two Arrays", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Longest Subarray with Sum = 0", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Check for Anagram", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 6,
+        title: "Hashing II",
+        tasks: [
+          { name: "Longest Substring Without Repeat", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Count Distinct Elements in Window", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "First Non-Repeating Character", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Count Substrings with K Distinct Characters", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 7,
+        title: "Two Pointers I",
+        tasks: [
+          { name: "Pair Sum in Sorted Array", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Triplet Sum", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Remove Duplicates from Sorted Array", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Container With Most Water", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 8,
+        title: "Sliding Window",
+        tasks: [
+          { name: "Max Sum Subarray of Size K", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Longest Substring After Replacements", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Minimum Window Substring", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Sliding Window Maximum", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 9,
+        title: "Binary Search I",
+        tasks: [
+          { name: "Binary Search (Iterative & Recursive)", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Lower Bound & Upper Bound", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Search Insert Position", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Search in Rotated Sorted Array", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 10,
+        title: "Binary Search II",
+        tasks: [
+          { name: "Median of Two Sorted Arrays", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Allocate Minimum Number of Pages", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Aggressive Cows (GFG)", difficulty: "hard", links: ["geeksforgeeks"] },
+          { name: "Koko Eating Bananas", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 11,
+        title: "Recursion Basics",
+        tasks: [
+          { name: "Print All Subsequences", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Generate Power Set", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Subset Sum Problem", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Recursive Fibonacci", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 12,
+        title: "Backtracking",
+        tasks: [
+          { name: "N-Queens", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Rat in a Maze", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Word Search", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Sudoku Solver", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 13,
+        title: "Matrix I",
+        tasks: [
+          { name: "Spiral Matrix", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Rotate Matrix 90 Degrees", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Search in 2D Matrix", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Set Matrix Zeroes", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 14,
+        title: "Matrix II",
+        tasks: [
+          { name: "Number of Islands", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Flood Fill Algorithm", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Matrix Chain Multiplication (Intro)", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Boundary Traversal of Matrix", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 15,
+        title: "Linked List I",
+        tasks: [
+          { name: "Reverse a Linked List", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Detect Loop in LL", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Remove Duplicates from Sorted LL", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Find Middle of Linked List", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 16,
+        title: "Linked List II",
+        tasks: [
+          { name: "Merge Two Sorted LL", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Intersection Point in Y LL", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Palindrome Linked List", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Add 1 to a Number Represented by LL", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 17,
+        title: "Stacks I",
+        tasks: [
+          { name: "Implement Stack using Array/LL", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Next Greater Element", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Valid Parentheses", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Min Stack", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 18,
+        title: "Stacks II",
+        tasks: [
+          { name: "Largest Rectangle in Histogram", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Maximal Rectangle in Matrix", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Sliding Window Maximum", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Circular Queue Implementation", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 19,
+        title: "String Manipulation I",
+        tasks: [
+          { name: "Reverse Words in a String", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Longest Palindromic Substring", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Implement ATOI", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Group Anagrams", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 20,
+        title: "String Manipulation II",
+        tasks: [
+          { name: "Rabin Karp Algorithm", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "KMP Pattern Searching", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Longest Common Prefix", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Z-Algorithm (Intro)", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 21,
+        title: "Binary Trees I",
+        tasks: [
+          { name: "Inorder, Preorder, Postorder Traversals", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Level Order Traversal", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Height of Binary Tree", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Diameter of Binary Tree", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 22,
+        title: "Binary Trees II",
+        tasks: [
+          { name: "Lowest Common Ancestor", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Zigzag Level Order", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Convert BT to DLL", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Top View of Binary Tree", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 23,
+        title: "Binary Search Trees",
+        tasks: [
+          { name: "Search, Insert in BST", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Validate BST", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Floor and Ceil in BST", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Trie Insert and Search", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 24,
+        title: "Heaps",
+        tasks: [
+          { name: "Implement Min/Max Heap", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Kth Largest Element", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Median in Data Stream", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Top K Frequent Elements", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 25,
+        title: "Greedy Algorithms",
+        tasks: [
+          { name: "Activity Selection Problem", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Fractional Knapsack", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Huffman Encoding", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Job Scheduling Problem", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 26,
+        title: "Graphs I",
+        tasks: [
+          { name: "BFS and DFS Traversals", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Detect Cycle in Undirected Graph", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Detect Cycle in Directed Graph", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Topological Sort (Kahn's Algo)", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 27,
+        title: "Graphs II",
+        tasks: [
+          { name: "Dijkstra's Shortest Path", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Bellman Ford", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Kruskal's Algorithm (MST)", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Prim's Algorithm (MST)", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 28,
+        title: "Dynamic Programming I",
+        tasks: [
+          { name: "Fibonacci (DP)", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Climbing Stairs", difficulty: "easy", links: ["leetcode", "geeksforgeeks"] },
+          { name: "House Robber", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Minimum Coins to Make Sum", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 29,
+        title: "Dynamic Programming II",
+        tasks: [
+          { name: "Longest Common Subsequence", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Edit Distance", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "0-1 Knapsack", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Matrix Chain Multiplication", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      },
+      {
+        day: 30,
+        title: "Advanced Problems",
+        tasks: [
+          { name: "Largest Area of Island", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Rotting Oranges", difficulty: "medium", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Word Ladder", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] },
+          { name: "Max Path Sum in Binary Tree", difficulty: "hard", links: ["leetcode", "geeksforgeeks"] }
+        ]
+      }
     ];
 
     const tracker = document.getElementById("tracker");
+    const daysCompletedEl = document.getElementById("days-completed");
+    const problemsSolvedEl = document.getElementById("problems-solved");
+    const completionRateEl = document.getElementById("completion-rate");
+    const progressBar = document.getElementById("overall-progress");
+    const backToTopBtn = document.getElementById("backToTop");
 
-    days.forEach((questions, index) => {
+    // Load saved progress from localStorage
+    let savedProgress = JSON.parse(localStorage.getItem('dsaProgress')) || {};
+    
+    // Initialize stats
+    let totalProblems = 0;
+    let solvedProblems = 0;
+    let completedDays = 0;
+
+    // Render all days
+    daysData.forEach(dayData => {
+      totalProblems += dayData.tasks.length;
+      
       const dayDiv = document.createElement("div");
       dayDiv.className = "day-container";
-      dayDiv.innerHTML = `<h2>Day ${index + 1}</h2>`;
-
-      questions.forEach((q, i) => {
-        const task = document.createElement("div");
-        task.className = "task";
-
+      dayDiv.id = `day-${dayData.day}`;
+      
+      const dayTitle = document.createElement("h2");
+      dayTitle.innerHTML = `<i class="fas fa-calendar-day"></i> Day ${dayData.day}: ${dayData.title}`;
+      
+      const taskList = document.createElement("ul");
+      taskList.className = "task-list";
+      
+      let dayCompleted = true;
+      let daySolved = 0;
+      
+      dayData.tasks.forEach((task, index) => {
+        const taskId = `day${dayData.day}-task${index + 1}`;
+        const isCompleted = savedProgress[taskId] || false;
+        
+        if (isCompleted) {
+          solvedProblems++;
+          daySolved++;
+        } else {
+          dayCompleted = false;
+        }
+        
+        const taskItem = document.createElement("li");
+        taskItem.className = "task";
+        
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
-        checkbox.id = `day${index + 1}-q${i + 1}`;
-
+        checkbox.id = taskId;
+        checkbox.checked = isCompleted;
+        
         const label = document.createElement("label");
-        label.htmlFor = checkbox.id;
-        label.textContent = q;
-
-        const link = document.createElement("a");
-        link.href = `https://www.google.com/search?q=${encodeURIComponent(q + ' site:leetcode.com OR site:geeksforgeeks.org')}`;
-        link.target = "_blank";
-        link.className = "platform-link";
-        link.textContent = "🔗";
-
-        checkbox.addEventListener("change", () => {
-          if (checkbox.checked) {
-            label.classList.add("completed");
-          } else {
-            label.classList.remove("completed");
+        label.htmlFor = taskId;
+        label.textContent = task.name;
+        if (isCompleted) label.classList.add("completed");
+        
+        const difficultySpan = document.createElement("span");
+        difficultySpan.className = `difficulty ${task.difficulty}`;
+        difficultySpan.textContent = task.difficulty.charAt(0).toUpperCase() + task.difficulty.slice(1);
+        
+        const actionsDiv = document.createElement("div");
+        actionsDiv.className = "task-actions";
+        
+        task.links.forEach(link => {
+          const linkBtn = document.createElement("button");
+          linkBtn.className = "action-btn";
+          linkBtn.title = `View on ${link}`;
+          
+          const linkIcon = document.createElement("i");
+          linkIcon.className = link === 'leetcode' ? 'fab fa-leetcode' : 'fas fa-code';
+          
+          linkBtn.appendChild(linkIcon);
+          linkBtn.addEventListener('click', () => {
+            window.open(`https://www.${link}.com/problems/${task.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`, '_blank');
+          });
+          
+          actionsDiv.appendChild(linkBtn);
+        });
+        
+        const notesBtn = document.createElement("button");
+        notesBtn.className = "action-btn";
+        notesBtn.title = "Add notes";
+        notesBtn.innerHTML = '<i class="fas fa-edit"></i>';
+        notesBtn.addEventListener('click', () => {
+          const notes = prompt("Add your notes for this problem:", savedProgress[`${taskId}-notes`] || "");
+          if (notes !== null) {
+            savedProgress[`${taskId}-notes`] = notes;
+            localStorage.setItem('dsaProgress', JSON.stringify(savedProgress));
           }
         });
-
-        task.appendChild(checkbox);
-        task.appendChild(label);
-        task.appendChild(link);
-        dayDiv.appendChild(task);
+        actionsDiv.appendChild(notesBtn);
+        
+        checkbox.addEventListener("change", () => {
+          savedProgress[taskId] = checkbox.checked;
+          localStorage.setItem('dsaProgress', JSON.stringify(savedProgress));
+          
+          if (checkbox.checked) {
+            label.classList.add("completed");
+            solvedProblems++;
+            daySolved++;
+            
+            // Check if day is now completed
+            const allChecked = [...taskList.querySelectorAll('input[type="checkbox"]')].every(cb => cb.checked);
+            if (allChecked) {
+              completedDays++;
+              daysCompletedEl.textContent = completedDays;
+            }
+          } else {
+            label.classList.remove("completed");
+            solvedProblems--;
+            daySolved--;
+            
+            // Check if day is no longer completed
+            if (dayCompleted) {
+              completedDays--;
+              daysCompletedEl.textContent = completedDays;
+              dayCompleted = false;
+            }
+          }
+          
+          updateStats();
+        });
+        
+        label.appendChild(difficultySpan);
+        taskItem.appendChild(checkbox);
+        taskItem.appendChild(label);
+        taskItem.appendChild(actionsDiv);
+        taskList.appendChild(taskItem);
       });
-
+      
+      if (dayCompleted) completedDays++;
+      
+      dayDiv.appendChild(dayTitle);
+      dayDiv.appendChild(taskList);
       tracker.appendChild(dayDiv);
     });
+    
+    // Update statistics
+    function updateStats() {
+      daysCompletedEl.textContent = completedDays;
+      problemsSolvedEl.textContent = solvedProblems;
+      const rate = Math.round((solvedProblems / totalProblems) * 100);
+      completionRateEl.textContent = `${rate}%`;
+      progressBar.style.width = `${rate}%`;
+      
+      // Save to localStorage
+      localStorage.setItem('dsaStats', JSON.stringify({
+        daysCompleted: completedDays,
+        problemsSolved: solvedProblems,
+        completionRate: rate
+      }));
+    }
+    
+    // Initialize stats
+    updateStats();
+    
+    // Back to top button
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+    
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Add motivational quotes (rotating)
+    const quotes = [
+      "The expert in anything was once a beginner.",
+      "Code is like humor. When you have to explain it, it's bad.",
+      "First, solve the problem. Then, write the code.",
+      "The only way to learn a new programming language is by writing programs in it.",
+      "Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday's code.",
+      "Programming isn't about what you know; it's about what you can figure out.",
+      "The most disastrous thing that you can ever learn is your first programming language.",
+      "The only way to go fast, is to go well.",
+      "Programming is the art of telling another human what one wants the computer to do.",
+      "Confusion is part of programming."
+    ];
+    
+    const quoteElement = document.querySelector('.motivational-quote');
+    let currentQuoteIndex = 0;
+    
+    function rotateQuote() {
+      quoteElement.textContent = quotes[currentQuoteIndex];
+      currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+    }
+    
+    // Rotate quote every 10 seconds
+    rotateQuote();
+    setInterval(rotateQuote, 10000);
   </script>
 </body>
 </html>
