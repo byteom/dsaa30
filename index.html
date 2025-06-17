@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30-Day DSA Tracker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #1e88e5;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav {
+      background-color: #1565c0;
+      padding: 0.5rem;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 1rem;
+    }
+    .day-container {
+      background: white;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    .day-container h2 {
+      margin-bottom: 12px;
+      color: #1e88e5;
+    }
+    .task {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .task input[type="checkbox"] {
+      margin-right: 10px;
+      transform: scale(1.2);
+    }
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #1e88e5;
+      color: white;
+    }
+    .platform-link {
+      margin-left: 10px;
+      font-size: 0.9rem;
+      color: #1565c0;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>📘 30-Day DSA Challenge Tracker</header>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Resources</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+  </nav>
+  <div class="container" id="tracker"></div>
+  <footer>Created with ❤️ for DSA learners - Track daily & stay consistent!</footer>
+
+  <script>
+    const days = [
+      ["Maximum Subarray (Kadane’s Algo)", "Find Second Largest & Second Smallest", "Left Rotate Array by One", "Check if Array is Sorted"],
+      ["Move All Zeros to End", "Leaders in an Array", "Longest Consecutive Subsequence", "Stock Buy and Sell I"],
+      ["Subarray with Given Sum", "Equilibrium Point", "Prefix Sum + Range Sum Queries", "Count Subarrays with 0 Sum"],
+      ["GCD using Euclid’s Algo", "Count set bits in an integer", "Sieve of Eratosthenes", "Check Power of 2"],
+      ["Frequency of Elements (Using Map)", "Intersection of Two Arrays", "Longest Subarray with Sum = 0", "Check for Anagram"],
+      ["Longest Substring Without Repeat", "Count Distinct Elements in Window", "First Non-Repeating Character", "Count Substrings with K Distinct Characters"],
+      ["Pair Sum in Sorted Array", "Triplet Sum", "Remove Duplicates from Sorted Array", "Container With Most Water"],
+      ["Max Sum Subarray of Size K", "Longest Substring After Replacements", "Minimum Window Substring", "Sliding Window Maximum"],
+      ["Binary Search (Iterative & Recursive)", "Lower Bound & Upper Bound", "Search Insert Position", "Search in Rotated Sorted Array"],
+      ["Median of Two Sorted Arrays", "Allocate Minimum Number of Pages", "Aggressive Cows (GFG)", "Koko Eating Bananas"],
+      ["Print All Subsequences", "Generate Power Set", "Subset Sum Problem", "Recursive Fibonacci"],
+      ["N-Queens", "Rat in a Maze", "Word Search", "Sudoku Solver"],
+      ["Spiral Matrix", "Rotate Matrix 90 Degrees", "Search in 2D Matrix", "Set Matrix Zeroes"],
+      ["Number of Islands", "Flood Fill Algorithm", "Matrix Chain Multiplication (Intro)", "Boundary Traversal of Matrix"],
+      ["Reverse a Linked List", "Detect Loop in LL", "Remove Duplicates from Sorted LL", "Find Middle of Linked List"],
+      ["Merge Two Sorted LL", "Intersection Point in Y LL", "Palindrome Linked List", "Add 1 to a Number Represented by LL"],
+      ["Implement Stack using Array/LL", "Next Greater Element", "Valid Parentheses", "Min Stack"],
+      ["Largest Rectangle in Histogram", "Maximal Rectangle in Matrix", "Sliding Window Maximum", "Circular Queue Implementation"],
+      ["Reverse Words in a String", "Longest Palindromic Substring", "Implement ATOI", "Group Anagrams"],
+      ["Rabin Karp Algorithm", "KMP Pattern Searching", "Longest Common Prefix", "Z-Algorithm (Intro)"],
+      ["Inorder, Preorder, Postorder Traversals", "Level Order Traversal", "Height of Binary Tree", "Diameter of Binary Tree"],
+      ["Lowest Common Ancestor", "Zigzag Level Order", "Convert BT to DLL", "Top View of Binary Tree"],
+      ["Search, Insert in BST", "Validate BST", "Floor and Ceil in BST", "Trie Insert and Search"],
+      ["Implement Min/Max Heap", "Kth Largest Element", "Median in Data Stream", "Top K Frequent Elements"],
+      ["Activity Selection Problem", "Fractional Knapsack", "Huffman Encoding", "Job Scheduling Problem"],
+      ["BFS and DFS Traversals", "Detect Cycle in Undirected Graph", "Detect Cycle in Directed Graph", "Topological Sort (Kahn’s Algo)"],
+      ["Dijkstra’s Shortest Path", "Bellman Ford", "Kruskal’s Algorithm (MST)", "Prim’s Algorithm (MST)"],
+      ["Fibonacci (DP)", "Climbing Stairs", "House Robber", "Minimum Coins to Make Sum"],
+      ["Longest Common Subsequence", "Edit Distance", "0-1 Knapsack", "Matrix Chain Multiplication"],
+      ["Largest Area of Island", "Rotting Oranges", "Word Ladder", "Max Path Sum in Binary Tree"]
+    ];
+
+    const tracker = document.getElementById("tracker");
+
+    days.forEach((questions, index) => {
+      const dayDiv = document.createElement("div");
+      dayDiv.className = "day-container";
+      dayDiv.innerHTML = `<h2>Day ${index + 1}</h2>`;
+
+      questions.forEach((q, i) => {
+        const task = document.createElement("div");
+        task.className = "task";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `day${index + 1}-q${i + 1}`;
+
+        const label = document.createElement("label");
+        label.htmlFor = checkbox.id;
+        label.textContent = q;
+
+        const link = document.createElement("a");
+        link.href = `https://www.google.com/search?q=${encodeURIComponent(q + ' site:leetcode.com OR site:geeksforgeeks.org')}`;
+        link.target = "_blank";
+        link.className = "platform-link";
+        link.textContent = "🔗";
+
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) {
+            label.classList.add("completed");
+          } else {
+            label.classList.remove("completed");
+          }
+        });
+
+        task.appendChild(checkbox);
+        task.appendChild(label);
+        task.appendChild(link);
+        dayDiv.appendChild(task);
+      });
+
+      tracker.appendChild(dayDiv);
+    });
+  </script>
+</body>
+</html>
